@@ -1,7 +1,7 @@
 {
   "name": "infoset-react-native",
   "version": "0.1.0",
-  "description": "Infoset SDK for react-native applications",
+  "description": "Infoset react-native SDK - Source",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",

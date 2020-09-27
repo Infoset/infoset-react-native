@@ -1,6 +1,6 @@
 # infoset-react-native
 
-Infoset SDK for react-native applications
+Infoset react-native SDK allows you to integrate Infoset Chat with your react-native app.
 
 ## Setup
 
