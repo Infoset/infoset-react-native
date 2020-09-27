@@ -1,20 +1,45 @@
-import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import InfosetReactNative from 'infoset-react-native';
+/* eslint-disable react-native/no-inline-styles */
+import InfosetSDK from 'infoset-react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+// import { Widget, WidgetProps } from 'infoset-react-native';
 
-export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    InfosetReactNative.multiply(3, 7).then(setResult);
-  }, []);
+const App: React.FC<{}> = () => {
+  const [visible, setVisible] = useState(false);
 
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <>
+      <InfosetSDK.Widget
+        isVisible={visible}
+        apiKey="..." // your infoset API key
+        iosKey="..." // ios key given from infoset
+        visitor={{
+          id: '123',
+          firstName: 'test',
+        }}
+        color="#4c65ff"
+        onWidgetHide={() => setVisible(false)}
+        onWidgetWillHide={() => console.log('will hide')}
+        onWidgetWillShow={() => console.log('will show')}
+        onWidgetShow={() => console.log('on show')}
+      />
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderColor: 'gray',
+            borderRadius: 6,
+            paddingHorizontal: 12,
+            paddingVertical: 6,
+          }}
+          onPress={() => setVisible(true)}
+        >
+          <Text style={{ fontSize: 24 }}>Show Chat</Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -23,3 +48,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;

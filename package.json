@@ -34,13 +34,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/onurcskun/infoset-react-native",
+  "repository": "https://github.com/Infoset/infoset-react-native-src",
   "author": "onurcskun <onurcskun@gmail.com> (https://github.com/onurcskun)",
-  "license": "MIT",
+  "license": "SEE LICENSE IN",
   "bugs": {
-    "url": "https://github.com/onurcskun/infoset-react-native/issues"
+    "url": "https://github.com/Infoset/infoset-react-native-src/issues"
   },
-  "homepage": "https://github.com/onurcskun/infoset-react-native#readme",
+  "homepage": "https://github.com/Infoset/infoset-react-native-src#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
     "@react-native-community/bob": "^0.16.2",
@@ -119,7 +119,10 @@
       ]
     }
   },
-  "eslintIgnore": ["node_modules/", "lib/"],
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
@@ -130,6 +133,14 @@
   "@react-native-community/bob": {
     "source": "src",
     "output": "lib",
-    "targets": ["commonjs", "module", "typescript"]
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  },
+  "dependencies": {
+    "react-native-url-polyfill": "^1.2.0",
+    "react-native-webview": "8.0.0"
   }
 }
