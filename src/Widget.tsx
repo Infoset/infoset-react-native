@@ -152,7 +152,6 @@ export const Widget: React.FC<WidgetProps> = ({
   }
 
   const onNavigationStateChange = (navState: WebViewNavigation) => {
-    console.log(navState.url);
     if (navState.url !== chatURL.toString()) {
       webViewRef.current?.stopLoading();
       // TODO open after samed
@@ -170,8 +169,6 @@ export const Widget: React.FC<WidgetProps> = ({
     }
   }
 
-  console.log(chatURL.toString());
-  console.log(chatURL);
   return (
     <Animated.View
       style={[
