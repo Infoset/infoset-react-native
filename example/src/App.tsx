@@ -11,17 +11,19 @@ const App: React.FC<{}> = () => {
     <>
       <InfosetSDK.Widget
         isVisible={visible}
+        enableOpenLinksWithBrowser={false}
         apiKey="..." // your infoset API key
         iosKey="..." // ios key given from infoset
-        visitor={{
-          id: '123',
-          firstName: 'test',
-        }}
         color="#4c65ff"
         onWidgetHide={() => setVisible(false)}
         onWidgetWillHide={() => console.log('will hide')}
         onWidgetWillShow={() => console.log('will show')}
         onWidgetShow={() => console.log('on show')}
+        getLink={(url) => console.log(url)}
+        visitor={{
+          id: '123',
+          firstName: 'test',
+        }}
       />
       <View style={styles.container}>
         <TouchableOpacity
