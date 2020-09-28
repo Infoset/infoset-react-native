@@ -40,7 +40,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   const [initiated, setInitiated] = useState<boolean>(false);
   const [isUIReady, setIsUIReady] = useState<boolean>(false);
   const animatedTopValue = useRef(new Animated.Value(0)).current;
-  const aniamtedOpacity = useRef(new Animated.Value(0)).current;
 
   function onCaptureWebViewEvent(event: WebViewMessageEvent) {
     const {
@@ -71,12 +70,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     Animated.parallel([
       Animated.timing(animatedTopValue, {
         toValue: 0,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-      Animated.timing(aniamtedOpacity, {
-        toValue: 1,
-        duration: 500,
+        duration: 280,
         useNativeDriver: false,
       }),
     ]).start((result) => {
@@ -84,18 +78,13 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
         onWidgetShow?.();
       }
     });
-  }, [animatedTopValue, aniamtedOpacity, onWidgetShow]);
+  }, [animatedTopValue, onWidgetShow]);
 
   const hideWidget = useCallback(() => {
     Animated.parallel([
       Animated.timing(animatedTopValue, {
         toValue: screenHeight,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-      Animated.timing(aniamtedOpacity, {
-        toValue: 0,
-        duration: 500,
+        duration: 280,
         useNativeDriver: false,
       }),
     ]).start((result) => {
@@ -103,7 +92,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
         onWidgetHide?.();
       }
     });
-  }, [animatedTopValue, aniamtedOpacity, onWidgetHide, screenHeight]);
+  }, [animatedTopValue, onWidgetHide, screenHeight]);
 
   useEffect(() => {
     if (isVisible) {
@@ -116,7 +105,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   }, [
     isVisible,
     animatedTopValue,
-    aniamtedOpacity,
     screenHeight,
     onWidgetWillHide,
     onWidgetHide,
@@ -192,7 +180,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       style={[
         styles.animatedViewBase,
         {
-          opacity: aniamtedOpacity,
           top: animatedTopValue,
         },
       ]}
