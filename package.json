@@ -1,5 +1,5 @@
 {
-  "name": "infoset-react-native",
+  "name": "@infoset/react-native",
   "version": "0.1.0",
   "description": "Infoset react-native SDK - Source",
   "main": "lib/commonjs/index",
@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "infoset-react-native.podspec",
+    "@infoset/react-native.podspec",
     "!lib/typescript/example",
     "!**/__tests__",
     "!**/__fixtures__",
@@ -34,12 +34,12 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Infoset/infoset-react-native-src",
+  "repository": "https://github.com/Infoset/@infoset/react-native-src",
   "author": "onurcskun <onurcskun@gmail.com> (https://github.com/onurcskun)",
   "bugs": {
-    "url": "https://github.com/Infoset/infoset-react-native-src/issues"
+    "url": "https://github.com/Infoset/@infoset/react-native-src/issues"
   },
-  "homepage": "https://github.com/Infoset/infoset-react-native-src#readme",
+  "homepage": "https://github.com/Infoset/@infoset/react-native-src#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
     "@react-native-community/bob": "^0.16.2",

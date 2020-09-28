@@ -1,6 +1,6 @@
 {
-  "name": "infoset-react-native-example",
-  "description": "Example app for infoset-react-native",
+  "name": "@infoset/react-native-example",
+  "description": "Example app for @infoset/react-native",
   "version": "0.0.1",
   "private": true,
   "scripts": {

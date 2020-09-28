@@ -1,4 +1,4 @@
-# infoset-react-native
+# @infoset/react-native
 
 Infoset react-native SDK allows you to integrate Infoset Chat with your react-native app.
 
@@ -7,11 +7,11 @@ Infoset react-native SDK allows you to integrate Infoset Chat with your react-na
 This library is available on npm, install it with: `npm i react-native-modal react-native-webview@8.0.0` or `yarn add react-native-modal react-native-webview@8.0.0`.
 
 ## Usage
-1.  Import infoset-react-native:
+1.  Import @infoset/react-native:
 
 ```javascript
-import InfosetSDK from 'infoset-react-native';
-// import { Widget } from 'infoset-react-native';
+import InfosetSDK from '@infoset/react-native';
+// import { Widget } from '@infoset/react-native';
 ```
 
 2.  Simply
@@ -52,8 +52,8 @@ At least one of `iosKey` or `androidKey` is required. You are free to enter both
 ```javascript
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import InfosetSDK from 'infoset-react-native';
-// import { Widget, WidgetProps } from 'infoset-react-native'
+import InfosetSDK from '@infoset/react-native';
+// import { Widget, WidgetProps } from '@infoset/react-native'
 
 const ExampleApp: React.FC<{}> = () => {
     const [visible, setVisible] = useState<boolean>(false);

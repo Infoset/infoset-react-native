@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import InfosetSDK from 'infoset-react-native';
+import InfosetSDK from '@infoset/react-native';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import { Widget, WidgetProps } from 'infoset-react-native';
+// import { Widget, WidgetProps } from '@infoset/react-native';
 
 const App: React.FC<{}> = () => {
   const [visible, setVisible] = useState(false);
