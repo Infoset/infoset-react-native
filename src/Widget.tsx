@@ -9,12 +9,12 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native';
+import { URL } from 'react-native-url-polyfill';
 import WebView, {
   WebViewMessageEvent,
   WebViewNavigation,
 } from 'react-native-webview';
 import type { MessageTypes, WidgetProps } from './types';
-import { URL } from 'react-native-url-polyfill';
 
 export const Widget: React.FC<WidgetProps> = ({
   apiKey,
@@ -99,11 +99,6 @@ export const Widget: React.FC<WidgetProps> = ({
   }, [animatedTopValue, aniamtedOpacity, onWidgetHide, screenHeight]);
 
   useEffect(() => {
-    const time = setTimeout(() => onWidgetHide?.(), 10000);
-    return () => clearTimeout(time);
-  }, [onWidgetHide, isVisible]);
-
-  useEffect(() => {
     if (isVisible) {
       onWidgetWillShow?.();
       showWidget();
@@ -154,7 +149,7 @@ export const Widget: React.FC<WidgetProps> = ({
   const onNavigationStateChange = (navState: WebViewNavigation) => {
     if (navState.url !== chatURL.toString()) {
       webViewRef.current?.stopLoading();
-      // TODO open after samed
+      // TODO
       // Linking.openURL(navState.url);
     }
   };
