@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
   ChatWidget,
-  VisitorType,
+  UserType,
   // ChatWidgetProps,
 } from '@infoset/react-native';
 import React, { useState } from 'react';
@@ -10,7 +10,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 const App: React.FC<{}> = () => {
   const [visible, setVisible] = useState(false);
 
-  const visitor: VisitorType = {
+  const user: UserType = {
     id: 123,
     firstName: 'John',
     lastName: 'Wick',
@@ -36,7 +36,7 @@ const App: React.FC<{}> = () => {
         onWidgetShow={() => console.log('on show')}
         onNewMessage={() => console.log('on new message')}
         handleUrls={(url) => console.log(url)}
-        visitor={visitor}
+        user={user}
         tags={['Support', 'Recurring Customer']}
       />
       <View style={styles.container}>

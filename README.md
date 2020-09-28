@@ -18,12 +18,7 @@ import { ChatWidget } from '@infoset/react-native';
 ```javascript
 function ExampleComponent() {
   return (
-    <ChatWidget
-      isVisible={false}
-      apiKey="....." // your infoset API key
-      iosKey="....." // ios key given from infoset
-      androidKey="....." // android key given from infoset
-    />
+    <ChatWidget />
   )
 }
 ```
@@ -35,9 +30,7 @@ function ExampleComponent() {
   return (
     <ChatWidget
       isVisible={true}
-      apiKey="....." // your infoset API key
-      iosKey="....." // ios key given from infoset
-      androidKey="....." // android key given from infoset
+      ...
     />
   )
 }
@@ -52,16 +45,10 @@ At least one of `iosKey` or `androidKey` is required. You are free to enter both
 You can route your chats to specific tags by providing `tags`.
 
 ```javascript
-  <ChatWidget
-    ...
-    tags={['Support', 'Recurring Customer']}
-  />
-```
-
-You can provide multiple tags separated by commas.
-
-```swift
-InfosetChat.tags = "Support,Recurring Customer"
+<ChatWidget
+  ...
+  tags={['Support', 'Recurring Customer']}
+/>
 ```
 
 ### Setting User Variables
@@ -70,15 +57,30 @@ You can provide your user's details such as name and email if they are known, so
 
 ```javascript
 <ChatWidget
+  ...
+  user={{
+    id: 123,
+    email: 'example@infoset.app',
+    firstName: 'John',
+    lastName: 'Doe',
     ...
-    visitor={{
-      id: 123,
-      email: 'example@infoset.app',
-      firstName: 'John',
-      lastName: 'Doe',
-      ...
-    }}
-  />
+  }}
+/>
+```
+
+user type
+```javascript
+export type UserType = {
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  photoUrl?: string;
+  userHash?: string;
+  createdAt?: string;
+  company?: string;
+};
 ```
 
 See `examples/src/app.tsx` for all of the user fields.
@@ -89,27 +91,27 @@ By default, all links in chat messages are opened in default browser. To change 
 
 ```javascript
 <ChatWidget
-    ...
-    handleUrls={(url) => console.log(`URL is ${url}`}
-  />
+  ...
+  handleUrls={(url) => console.log(`URL is ${url}`}
+/>
 ```
 
-See example app from `examples` for complete example.
+See example app from `/examples` for complete example.
 
 ### Available props
 -- Widget
 | Name                           | Type             | Default                        |Description                                                     |
 | ------------------------------ | ---------------- | ------------------------------ | -------------------------------------------------------------- |
-| isVisible                      | bool             | **REQUIRED**                   | Show / hide the widget                                         |
+| isVisible                      | bool             | **REQUIRED** / false           | Show / hide the widget                                         |
 | apiKey                         | string           | **REQUIRED**                   | Infoset API key                                                |
-| color                          | string           | '#fff'                         | Widget color                                                   |
 | iosKey                         | string           | undefined                      | IOS key given from Infoset                                     |
 | androidKey                     | string           | undefined                      | Android key given from Infoset                                 |
+| color                          | string           | '#fff'                         | Widget color                                                   |
 | onWidgetWillShow               | func             | () => void                     | Called before the widget show animation begins                 |
 | onWidgetShow                   | func             | () => void                     | Called when the widget is completely visible                   |
 | onWidgetWillHide               | func             | () => void                     | Called before the widget hide animation begins                 |
 | onWidgetHide                   | func             | () => void                     | Called when the widget is completely hiden                     |
 | onNewMessage                   | func             | () => void                     | Called when the new message received                           |
 | handleUrls                     | func             | (url: string) => void          | Called when a link clicked                                     |
-| visitor                        | object           | undefined                      | Visitor data                                                   |
+| user                           | object           | undefined                      | User data                                                   |
 | tags                           | array            | undefined                      | Tags                                                           |

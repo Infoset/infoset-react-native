@@ -18,18 +18,18 @@ import WebView, {
 import type { ChatMessageTypes, ChatWidgetProps } from './types';
 
 export const ChatWidget: React.FC<ChatWidgetProps> = ({
+  isVisible = false,
   apiKey,
   iosKey,
-  color,
   androidKey,
+  color,
   onNewMessage,
-  isVisible,
   onWidgetWillShow,
   onWidgetShow,
   onWidgetWillHide,
   onWidgetHide,
   handleUrls,
-  visitor,
+  user,
   tags,
 }) => {
   const screenHeight = Dimensions.get('screen').height;
@@ -145,9 +145,9 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     chatURL.searchParams.append('androidKey', androidKey);
   }
 
-  // append visitor
-  if (visitor?.id) {
-    Object.entries(visitor).forEach(
+  // append user
+  if (user?.id) {
+    Object.entries(user).forEach(
       (entry) =>
         entry[1] && chatURL.searchParams.append(entry[0], String(entry[1]))
     );
