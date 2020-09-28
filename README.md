@@ -1,3 +1,7 @@
+[![npm version](https://badge.fury.io/js/%40infoset%2Freact-native.svg)](https://badge.fury.io/js/%40infoset%2Freact-native)
+
+<img src="https://user-images.githubusercontent.com/13895224/94475996-8de39c80-01d8-11eb-8771-e590b33c612e.png" alt="Infoset" width="300" />
+
 # @infoset/react-native
 
 Infoset react-native SDK allows you to integrate Infoset Chat with your react-native app.
