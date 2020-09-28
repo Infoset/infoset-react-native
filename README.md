@@ -98,8 +98,9 @@ const ExampleApp: React.FC<{}> = () => {
 -- Widget
 | Name                           | Type             | Default                        |Description                                                     |
 | ------------------------------ | ---------------- | ------------------------------ | -------------------------------------------------------------- |
-| apiKey                         | string           | **REQUIRED**                   | Infoset API key                                                |
 | isVisible                      | bool             | **REQUIRED**                   | Show / hide the widget                                         |
+| enableOpenLinksWithBrowser     | bool             | true                           | Open links with default browser                                |
+| apiKey                         | string           | **REQUIRED**                   | Infoset API key                                                |
 | color                          | string           | '#fff'                         | Widget color                                                   |
 | iosKey                         | string           | undefined                      | IOS key given from Infoset                                     |
 | androidKey                     | string           | undefined                      | Android key given from Infoset                                 |
@@ -108,4 +109,5 @@ const ExampleApp: React.FC<{}> = () => {
 | onWidgetWillHide               | func             | () => void                     | Called before the widget hide animation begins                 |
 | onWidgetHide                   | func             | () => void                     | Called when the widget is completely hiden                     |
 | onNewMessage                   | func             | () => void                     | Called when the new message received                           |
+| getLink                        | func             | (url: string) => void          | Called when a link clicked                                     |
 | visitor                        | object           | undefined                      | Visitor data                                                   |

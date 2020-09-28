@@ -4,6 +4,7 @@ import {
   Alert,
   Animated,
   Dimensions,
+  Linking,
   Platform,
   SafeAreaView,
   StatusBar,
@@ -17,6 +18,8 @@ import WebView, {
 import type { MessageTypes, WidgetProps } from './types';
 
 export const Widget: React.FC<WidgetProps> = ({
+  enableOpenLinksWithBrowser = false,
+  getLink,
   apiKey,
   iosKey,
   color,
@@ -146,12 +149,18 @@ export const Widget: React.FC<WidgetProps> = ({
     );
   }
 
-  const onNavigationStateChange = (navState: WebViewNavigation) => {
-    if (navState.url !== chatURL.toString()) {
-      webViewRef.current?.stopLoading();
-      // TODO
-      // Linking.openURL(navState.url);
+  const onShouldStartLoadWithRequest = (event: WebViewNavigation) => {
+    const { url } = event;
+
+    if (url !== chatURL.toString()) {
+      if (enableOpenLinksWithBrowser) {
+        Linking.openURL(url);
+      }
+      getLink?.(url);
+      return false;
     }
+
+    return true;
   };
 
   let isColorLightish = true;
@@ -202,7 +211,7 @@ export const Widget: React.FC<WidgetProps> = ({
           startInLoadingState
           javaScriptEnabled
           onMessage={onCaptureWebViewEvent}
-          onNavigationStateChange={onNavigationStateChange}
+          onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         />
       </SafeAreaView>
     </Animated.View>
