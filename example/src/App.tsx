@@ -1,29 +1,43 @@
 /* eslint-disable react-native/no-inline-styles */
-import InfosetSDK from '@infoset/react-native';
+import {
+  ChatWidget,
+  VisitorType,
+  // ChatWidgetProps,
+} from '@infoset/react-native';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import { Widget, WidgetProps } from '@infoset/react-native';
 
 const App: React.FC<{}> = () => {
   const [visible, setVisible] = useState(false);
 
+  const visitor: VisitorType = {
+    id: 123,
+    firstName: 'John',
+    lastName: 'Wick',
+    company: 'infoset',
+    email: 'example@infoset.app',
+    phone: '+901234567890',
+    photoUrl: '',
+    createdAt: '',
+    userHash: '',
+  };
+
   return (
     <>
-      <InfosetSDK.Widget
+      <ChatWidget
         isVisible={visible}
-        enableOpenLinksWithBrowser={false}
-        apiKey="..." // your infoset API key
-        iosKey="..." // ios key given from infoset
+        apiKey="123-456-789" // your infoset API key
+        iosKey="123-456-789" // ios key given from infoset
+        androidKey="123-456-789" // ios key given from infoset
         color="#4c65ff"
         onWidgetHide={() => setVisible(false)}
         onWidgetWillHide={() => console.log('will hide')}
         onWidgetWillShow={() => console.log('will show')}
         onWidgetShow={() => console.log('on show')}
-        getLink={(url) => console.log(url)}
-        visitor={{
-          id: '123',
-          firstName: 'test',
-        }}
+        onNewMessage={() => console.log('on new message')}
+        handleUrls={(url) => console.log(url)}
+        visitor={visitor}
+        tags={['Support', 'Recurring Customer']}
       />
       <View style={styles.container}>
         <TouchableOpacity

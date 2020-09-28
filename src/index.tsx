@@ -1,6 +1,6 @@
-import { Widget } from './Widget';
-export { Widget } from './Widget';
-export { WidgetProps } from './types';
+import { ChatWidget } from './ChatWidget';
+export { ChatWidget } from './ChatWidget';
+export { ChatWidgetProps, VisitorType } from './types';
 export default {
-  Widget,
+  ChatWidget,
 };

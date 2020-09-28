@@ -4,14 +4,13 @@ Infoset react-native SDK allows you to integrate Infoset Chat with your react-na
 
 ## Setup
 
-This library is available on npm, install it with: `npm i react-native-modal react-native-webview@8.0.0` or `yarn add react-native-modal react-native-webview@8.0.0`.
+This library is available on npm, install it with: `npm i @infoset/react-native react-native-webview@8.0.0` or `yarn add @infoset/react-native react-native-webview@8.0.0`.
 
-## Usage
+### Usage
 1.  Import @infoset/react-native:
 
 ```javascript
-import InfosetSDK from '@infoset/react-native';
-// import { Widget } from '@infoset/react-native';
+import { ChatWidget } from '@infoset/react-native';
 ```
 
 2.  Simply
@@ -19,7 +18,7 @@ import InfosetSDK from '@infoset/react-native';
 ```javascript
 function ExampleComponent() {
   return (
-    <InfosetSDK.Widget
+    <ChatWidget
       isVisible={false}
       apiKey="....." // your infoset API key
       iosKey="....." // ios key given from infoset
@@ -34,7 +33,7 @@ function ExampleComponent() {
 ```javascript
 function ExampleComponent() {
   return (
-    <InfosetSDK.Widget
+    <ChatWidget
       isVisible={true}
       apiKey="....." // your infoset API key
       iosKey="....." // ios key given from infoset
@@ -44,62 +43,64 @@ function ExampleComponent() {
 }
 ```
 
-The `isVisible` prop is the only prop you'll really need to make the modal work: you should control this prop value by saving it in your state and setting it to `true` or `false` when needed.
-`apiKey` is required.
+The `isVisible` prop is the only prop you'll really need to make the modal work: you should control this prop value by saving it in your state and setting it to `true` or `false` when needed.<br/>
+`apiKey` is required.<br/>
 At least one of `iosKey` or `androidKey` is required. You are free to enter both of them also. Otherwise, widget will not work.
 
-## A complete example
+### Assign chat to tags
+
+You can route your chats to specific tags by providing `tags`.
+
 ```javascript
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import InfosetSDK from '@infoset/react-native';
-// import { Widget, WidgetProps } from '@infoset/react-native'
-
-const ExampleApp: React.FC<{}> = () => {
-    const [visible, setVisible] = useState<boolean>(false);
-
-    const onShowChat = () => {
-        setVisible(true);
-    }
-
-    return (
-        <>
-            <InfosetSDK.Widget
-                apiKey="....." // your infoset API key
-                iosKey="....." // ios key given from infoset
-                androidKey="....." // android key given from infoset
-                isVisible={visible}
-                onWidgetHide={() => setVisible(false)}
-             />
-             <View style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-             }}>
-                <TouchableOpacity
-                    style={{
-                        borderWidth: 1,
-                        borderColor: 'gray',
-                        borderRadius: 6,
-                        paddingHorizontal: 12,
-                        paddingVertical: 6,
-                    }}
-                    onPress={onShowChat}
-                >
-                  <Text style={{ fontSize: 24 }}>Show Chat</Text>
-                </TouchableOpacity>
-            </View>
-        </>
-    )
-}
+  <ChatWidget
+    ...
+    tags={['Support', 'Recurring Customer']}
+  />
 ```
 
-## Available props
+You can provide multiple tags separated by commas.
+
+```swift
+InfosetChat.tags = "Support,Recurring Customer"
+```
+
+### Setting User Variables
+
+You can provide your user's details such as name and email if they are known, so you will immediately know who you are talking to on the Infoset dashboard:
+
+```javascript
+<ChatWidget
+    ...
+    visitor={{
+      id: 123,
+      email: 'example@infoset.app',
+      firstName: 'John',
+      lastName: 'Doe',
+      ...
+    }}
+  />
+```
+
+See `examples/src/app.tsx` for all of the user fields.
+
+### Handling URLs
+
+By default, all links in chat messages are opened in default browser. To change this behavior you can use the `handleUrls` to handle URLs yourself.
+
+```javascript
+<ChatWidget
+    ...
+    handleUrls={(url) => console.log(`URL is ${url}`}
+  />
+```
+
+See example app from `examples` for complete example.
+
+### Available props
 -- Widget
 | Name                           | Type             | Default                        |Description                                                     |
 | ------------------------------ | ---------------- | ------------------------------ | -------------------------------------------------------------- |
 | isVisible                      | bool             | **REQUIRED**                   | Show / hide the widget                                         |
-| enableOpenLinksWithBrowser     | bool             | true                           | Open links with default browser                                |
 | apiKey                         | string           | **REQUIRED**                   | Infoset API key                                                |
 | color                          | string           | '#fff'                         | Widget color                                                   |
 | iosKey                         | string           | undefined                      | IOS key given from Infoset                                     |
@@ -109,5 +110,6 @@ const ExampleApp: React.FC<{}> = () => {
 | onWidgetWillHide               | func             | () => void                     | Called before the widget hide animation begins                 |
 | onWidgetHide                   | func             | () => void                     | Called when the widget is completely hiden                     |
 | onNewMessage                   | func             | () => void                     | Called when the new message received                           |
-| getLink                        | func             | (url: string) => void          | Called when a link clicked                                     |
+| handleUrls                     | func             | (url: string) => void          | Called when a link clicked                                     |
 | visitor                        | object           | undefined                      | Visitor data                                                   |
+| tags                           | array            | undefined                      | Tags                                                           |

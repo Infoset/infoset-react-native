@@ -15,11 +15,9 @@ import WebView, {
   WebViewMessageEvent,
   WebViewNavigation,
 } from 'react-native-webview';
-import type { MessageTypes, WidgetProps } from './types';
+import type { ChatMessageTypes, ChatWidgetProps } from './types';
 
-export const Widget: React.FC<WidgetProps> = ({
-  enableOpenLinksWithBrowser = false,
-  getLink,
+export const ChatWidget: React.FC<ChatWidgetProps> = ({
   apiKey,
   iosKey,
   color,
@@ -30,7 +28,9 @@ export const Widget: React.FC<WidgetProps> = ({
   onWidgetShow,
   onWidgetWillHide,
   onWidgetHide,
+  handleUrls,
   visitor,
+  tags,
 }) => {
   const screenHeight = Dimensions.get('screen').height;
   const webViewRef = useRef<WebView>(null);
@@ -42,7 +42,7 @@ export const Widget: React.FC<WidgetProps> = ({
     const {
       messageType,
     }: {
-      messageType: MessageTypes;
+      messageType: ChatMessageTypes;
     } = JSON.parse(event.nativeEvent.data);
     if (messageType) {
       if (messageType === 'uiReady') {
@@ -122,7 +122,10 @@ export const Widget: React.FC<WidgetProps> = ({
     showWidget,
   ]);
 
-  if ((!iosKey && !androidKey) || !apiKey) {
+  if (
+    (!(iosKey && iosKey !== '') && !(androidKey && androidKey !== '')) ||
+    !(apiKey && apiKey !== '')
+  ) {
     return null;
   }
 
@@ -145,18 +148,25 @@ export const Widget: React.FC<WidgetProps> = ({
   // append visitor
   if (visitor?.id) {
     Object.entries(visitor).forEach(
-      (entry) => entry[1] && chatURL.searchParams.append(entry[0], entry[1])
+      (entry) =>
+        entry[1] && chatURL.searchParams.append(entry[0], String(entry[1]))
     );
+  }
+
+  // append tags
+  if (tags && tags.length) {
+    chatURL.searchParams.append('tags', tags.join(','));
   }
 
   const onShouldStartLoadWithRequest = (event: WebViewNavigation) => {
     const { url } = event;
 
     if (url !== chatURL.toString()) {
-      if (enableOpenLinksWithBrowser) {
+      if (handleUrls) {
+        handleUrls(url);
+      } else {
         Linking.openURL(url);
       }
-      getLink?.(url);
       return false;
     }
 

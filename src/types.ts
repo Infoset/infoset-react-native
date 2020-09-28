@@ -1,6 +1,17 @@
-export type WidgetProps = {
+export type VisitorType = {
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  photoUrl?: string;
+  userHash?: string;
+  createdAt?: string;
+  company?: string;
+};
+
+export type ChatWidgetProps = {
   isVisible: boolean;
-  enableOpenLinksWithBrowser?: boolean;
   apiKey?: string;
   color?: string;
   iosKey?: string;
@@ -10,18 +21,9 @@ export type WidgetProps = {
   onWidgetShow?: () => void;
   onWidgetWillHide?: () => void;
   onWidgetHide?: () => void;
-  getLink?: (url: string) => void;
-  visitor?: {
-    id?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    phone?: string;
-    photoUrl?: string;
-    userHash?: string;
-    createdAt?: string;
-    company?: string;
-  };
+  handleUrls?: (url: string) => void;
+  visitor?: VisitorType;
+  tags?: string[];
 };
 
-export type MessageTypes = 'uiReady' | 'newMessage' | 'hideChatWindow';
+export type ChatMessageTypes = 'uiReady' | 'newMessage' | 'hideChatWindow';
