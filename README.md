@@ -18,17 +18,7 @@ This library is available on npm, install it with: `npm i @infoset/react-native 
 import { ChatWidget } from '@infoset/react-native';
 ```
 
-2.  Simply
-
-```javascript
-function ExampleComponent() {
-  return (
-    <ChatWidget />
-  )
-}
-```
-
-3.  Then simply show it by setting the `isVisible` prop to true:
+2.  Then simply mount the component and set `isVisible` to `true` to display the chat window:
 
 ```javascript
 function ExampleComponent() {
