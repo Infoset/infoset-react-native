@@ -31,40 +31,32 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   onWidgetShow,
   onWidgetWillHide,
   onWidgetHide,
-  handleUrls,
-  user,
+  handleUrl,
+  visitor,
   tags,
 }) => {
   const screenHeight = Dimensions.get('screen').height;
   const webViewRef = useRef<WebView>(null);
   const [initiated, setInitiated] = useState<boolean>(false);
   const [isUIReady, setIsUIReady] = useState<boolean>(false);
+  const [isHidden, setIsHidden] = useState<boolean>(true);
+  const [shouldDestroy] = useState<boolean>(false);
   const animatedTopValue = useRef(new Animated.Value(0)).current;
 
-  function onCaptureWebViewEvent(event: WebViewMessageEvent) {
-    const {
-      messageType,
-    }: {
-      messageType: ChatMessageTypes;
-    } = JSON.parse(event.nativeEvent.data);
-    if (messageType) {
-      if (messageType === 'uiReady') {
-        setIsUIReady(true);
-      } else if (messageType === 'newMessage') {
-        onNewMessage?.();
-      } else if (messageType === 'hideChatWindow') {
-        hideWidget();
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (isVisible) {
-      if (!initiated) {
-        setInitiated(true);
-      }
-    }
-  }, [isVisible, initiated]);
+  const onWillShow = useCallback(() => {
+    onWidgetWillShow?.();
+    setIsHidden(false);
+  }, [onWidgetWillShow]);
+  const onWillHide = useCallback(() => {
+    onWidgetWillHide?.();
+  }, [onWidgetWillHide]);
+  const onShow = useCallback(() => {
+    onWidgetShow?.();
+  }, [onWidgetShow]);
+  const onHide = useCallback(() => {
+    onWidgetHide?.();
+    setIsHidden(true);
+  }, [onWidgetHide]);
 
   const showWidget = useCallback(() => {
     Animated.parallel([
@@ -75,10 +67,10 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       }),
     ]).start((result) => {
       if (result.finished) {
-        onWidgetShow?.();
+        onShow();
       }
     });
-  }, [animatedTopValue, onWidgetShow]);
+  }, [animatedTopValue, onShow]);
 
   const hideWidget = useCallback(() => {
     Animated.parallel([
@@ -89,29 +81,39 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       }),
     ]).start((result) => {
       if (result.finished) {
-        onWidgetHide?.();
+        onHide();
       }
     });
-  }, [animatedTopValue, onWidgetHide, screenHeight]);
+  }, [animatedTopValue, onHide, screenHeight]);
 
   useEffect(() => {
     if (isVisible) {
-      onWidgetWillShow?.();
+      if (!initiated) {
+        setInitiated(true);
+      }
+    }
+  }, [isVisible, initiated]);
+
+  useEffect(() => {
+    if (isVisible) {
+      onWillShow?.();
       showWidget();
     } else {
-      onWidgetWillHide?.();
+      onWillHide();
       hideWidget();
     }
   }, [
     isVisible,
     animatedTopValue,
     screenHeight,
-    onWidgetWillHide,
     onWidgetHide,
-    onWidgetWillShow,
     onWidgetShow,
     hideWidget,
     showWidget,
+    onShow,
+    onHide,
+    onWillShow,
+    onWillHide,
   ]);
 
   if (
@@ -121,18 +123,8 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     return null;
   }
 
-  if (!initiated) {
+  if (!initiated || shouldDestroy) {
     return null;
-  }
-
-  let isColorLightish = true;
-  if (color) {
-    if (
-      (color.startsWith('#') && !color.includes('#f')) ||
-      color.replace(/' '/g, '').includes('255,255,255')
-    ) {
-      isColorLightish = false;
-    }
   }
 
   // build url
@@ -147,9 +139,9 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     chatURL.searchParams.append('androidKey', androidKey);
   }
 
-  // append user
-  if (user?.id) {
-    Object.entries(user).forEach(
+  // append visitor
+  if (visitor?.id) {
+    Object.entries(visitor).forEach(
       (entry) =>
         entry[1] && chatURL.searchParams.append(entry[0], String(entry[1]))
     );
@@ -164,8 +156,8 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     const { url } = event;
 
     if (url !== chatURL.toString()) {
-      if (handleUrls) {
-        handleUrls(url);
+      if (handleUrl) {
+        handleUrl(url);
       } else {
         Linking.openURL(url);
       }
@@ -174,6 +166,35 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
     return true;
   };
+
+  function onCaptureWebViewEvent(event: WebViewMessageEvent) {
+    const {
+      messageType,
+    }: {
+      messageType: ChatMessageTypes;
+    } = JSON.parse(event.nativeEvent.data);
+    if (messageType) {
+      if (messageType === 'uiReady') {
+        setIsUIReady(true);
+      } else if (messageType === 'newMessage') {
+        onNewMessage?.();
+      } else if (messageType === 'hideChatWindow') {
+        hideWidget?.();
+      } else if (messageType === 'error') {
+        webViewRef.current?.forceUpdate();
+      }
+    }
+  }
+
+  let isColorLightish = true;
+  if (color) {
+    if (
+      (color.startsWith('#') && !color.includes('#f')) ||
+      color.replace(/' '/g, '').includes('255,255,255')
+    ) {
+      isColorLightish = false;
+    }
+  }
 
   return (
     <Animated.View
@@ -187,58 +208,60 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       <StatusBar
         barStyle={!isColorLightish ? 'light-content' : 'dark-content'}
       />
-      {!isUIReady ? (
-        <View style={[styles.loadingView, { backgroundColor: color }]}>
-          <TouchableOpacity
-            onPress={() => onWidgetHide?.()}
-            style={[
-              styles.closeBtn,
-              {
-                backgroundColor: 'rgba(0, 0, 0, .2)',
-              },
-            ]}
-          >
-            <Text
-              style={{ fontSize: 20, color: isColorLightish ? '#000' : '#fff' }}
+      <SafeAreaView
+        style={[
+          styles.flexContainer,
+          {
+            backgroundColor: color || '#fff',
+          },
+        ]}
+      >
+        {!isUIReady && !isHidden && (
+          <View style={[styles.loadingView, { backgroundColor: color }]}>
+            <TouchableOpacity
+              onPress={() => onWidgetHide?.()}
+              style={[
+                styles.closeBtn,
+                {
+                  backgroundColor: 'rgba(0, 0, 0, .2)',
+                },
+              ]}
             >
-              X
-            </Text>
-          </TouchableOpacity>
-          <ActivityIndicator
-            size="large"
-            color={isColorLightish ? 'rgba(0,0,0,.4)' : '#fff'}
-          />
-        </View>
-      ) : (
-        <SafeAreaView
-          style={[
-            styles.flexContainer,
-            {
-              backgroundColor: color || '#fff',
-            },
-          ]}
-        >
-          <WebView
-            ref={webViewRef}
-            // renderLoading={() => (
-            //   <ActivityIndicator
-            //     color={isColorLightish ? 'rgba(0,0,0,.4)' : '#fff'}
-            //     size="large"
-            //     style={[
-            //       styles.webViewIndicator,
-            //       { backgroundColor: color || '#fff' },
-            //     ]}
-            //   />
-            // )}
-            style={styles.flexContainer}
-            source={{ uri: chatURL.toString() }}
-            startInLoadingState
-            javaScriptEnabled
-            onMessage={onCaptureWebViewEvent}
-            onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-          />
-        </SafeAreaView>
-      )}
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: isColorLightish ? '#000' : '#fff',
+                }}
+              >
+                X
+              </Text>
+            </TouchableOpacity>
+            <ActivityIndicator
+              size="large"
+              color={isColorLightish ? 'rgba(0,0,0,.4)' : '#fff'}
+            />
+          </View>
+        )}
+        <WebView
+          ref={webViewRef}
+          renderLoading={() => (
+            <ActivityIndicator
+              color={isColorLightish ? 'rgba(0,0,0,.4)' : '#fff'}
+              size="large"
+              style={[
+                styles.webViewIndicator,
+                { backgroundColor: color || '#fff' },
+              ]}
+            />
+          )}
+          style={styles.flexContainer}
+          source={{ uri: chatURL.toString() }}
+          startInLoadingState
+          javaScriptEnabled
+          onMessage={onCaptureWebViewEvent}
+          onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+        />
+      </SafeAreaView>
     </Animated.View>
   );
 };
@@ -268,7 +291,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 2,
+    zIndex: 9999,
   },
   closeBtn: {
     position: 'absolute',

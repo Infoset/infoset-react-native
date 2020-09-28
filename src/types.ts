@@ -1,4 +1,4 @@
-export type UserType = {
+export type VisitorType = {
   id?: number;
   firstName?: string;
   lastName?: string;
@@ -21,9 +21,13 @@ export type ChatWidgetProps = {
   onWidgetShow?: () => void;
   onWidgetWillHide?: () => void;
   onWidgetHide?: () => void;
-  handleUrls?: (url: string) => void;
-  user?: UserType;
+  handleUrl?: (url: string) => void;
+  visitor?: VisitorType;
   tags?: string[];
 };
 
-export type ChatMessageTypes = 'uiReady' | 'newMessage' | 'hideChatWindow';
+export type ChatMessageTypes =
+  | 'uiReady'
+  | 'newMessage'
+  | 'hideChatWindow'
+  | 'error';

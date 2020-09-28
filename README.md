@@ -80,11 +80,11 @@ export type VisitorType = {
 };
 ```
 
-See `examples/src/app.tsx` for all of the user fields.
+See `examples/src/app.tsx` for all of the visitor fields.
 
 ### Handling URLs
 
-By default, all links in chat messages are opened in default browser. To change this behavior you can use the `handleUrls` to handle URLs yourself.
+By default, all links in chat messages are opened in default browser. To change this behavior you can use the `handleUrl` to handle URLs yourself.
 
 ```javascript
 <ChatWidget
