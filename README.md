@@ -35,15 +35,17 @@ function ExampleComponent() {
   return (
     <ChatWidget
       isVisible={true}
+      apiKey="your_chat_widget_api_key"
+      iosKey="your_chat_widget_ios_key"
+      androidKey="your_chat_widget_android_key"
       ...
     />
   )
 }
 ```
 
-The `isVisible` prop is the only prop you'll really need to make the modal work: you should control this prop value by saving it in your state and setting it to `true` or `false` when needed.<br/>
-`apiKey` is required.<br/>
-At least one of `iosKey` or `androidKey` is required. You are free to enter both of them also. Otherwise, widget will not work.
+You should control the `isVisible` prop and set it to `true` or `false` when needed.<br/>
+You can get your `apiKey`, `iosKey` and `androidKey` from the Infoset dashboard. `apiKey` is required, and at least one of `iosKey` or `androidKey` is required.
 
 ### Assign chat to tags
 
@@ -63,7 +65,7 @@ You can provide your user's details such as name and email if they are known, so
 ```javascript
 <ChatWidget
   ...
-  user={{
+  visitor={{
     id: 123,
     email: 'example@infoset.app',
     firstName: 'John',
@@ -73,9 +75,9 @@ You can provide your user's details such as name and email if they are known, so
 />
 ```
 
-user type
+Here's the visitor type:
 ```javascript
-export type UserType = {
+export type VisitorType = {
   id?: number;
   firstName?: string;
   lastName?: string;
@@ -97,7 +99,7 @@ By default, all links in chat messages are opened in default browser. To change 
 ```javascript
 <ChatWidget
   ...
-  handleUrls={(url) => console.log(`URL is ${url}`}
+  handleUrl={(url) => console.log(`URL is ${url}`}
 />
 ```
 
@@ -117,6 +119,6 @@ See example app from `/examples` for complete example.
 | onWidgetWillHide               | func             | () => void                     | Called before the widget hide animation begins                 |
 | onWidgetHide                   | func             | () => void                     | Called when the widget is completely hiden                     |
 | onNewMessage                   | func             | () => void                     | Called when the new message received                           |
-| handleUrls                     | func             | (url: string) => void          | Called when a link clicked                                     |
-| user                           | object           | undefined                      | User data                                                   |
+| handleUrl                      | func             | (url: string) => void          | Called when a link is clicked                                  |
+| visitor                        | object           | undefined                      | Visitor data                                                   |
 | tags                           | array            | undefined                      | Tags                                                           |
