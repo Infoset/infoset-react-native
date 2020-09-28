@@ -1,7 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Animated,
   Dimensions,
   Linking,
@@ -9,6 +9,9 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { URL } from 'react-native-url-polyfill';
 import WebView, {
@@ -22,7 +25,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   apiKey,
   iosKey,
   androidKey,
-  color,
+  color = '#fff',
   onNewMessage,
   onWidgetWillShow,
   onWidgetShow,
@@ -35,6 +38,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   const screenHeight = Dimensions.get('screen').height;
   const webViewRef = useRef<WebView>(null);
   const [initiated, setInitiated] = useState<boolean>(false);
+  const [isUIReady, setIsUIReady] = useState<boolean>(false);
   const animatedTopValue = useRef(new Animated.Value(0)).current;
   const aniamtedOpacity = useRef(new Animated.Value(0)).current;
 
@@ -46,7 +50,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     } = JSON.parse(event.nativeEvent.data);
     if (messageType) {
       if (messageType === 'uiReady') {
-        Alert.alert('UI READY MF');
+        setIsUIReady(true);
       } else if (messageType === 'newMessage') {
         onNewMessage?.();
       } else if (messageType === 'hideChatWindow') {
@@ -133,6 +137,16 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     return null;
   }
 
+  let isColorLightish = true;
+  if (color) {
+    if (
+      (color.startsWith('#') && !color.includes('#f')) ||
+      color.replace(/' '/g, '').includes('255,255,255')
+    ) {
+      isColorLightish = false;
+    }
+  }
+
   // build url
   let chatURL = new URL('https://cdn.infoset.app/chat/open_chat.html');
   chatURL.searchParams.append('platform', Platform.OS);
@@ -173,16 +187,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     return true;
   };
 
-  let isColorLightish = true;
-  if (color) {
-    if (
-      (color.startsWith('#') && !color.includes('#f')) ||
-      color.replace(/' '/g, '').includes('255,255,255')
-    ) {
-      isColorLightish = false;
-    }
-  }
-
   return (
     <Animated.View
       style={[
@@ -196,34 +200,58 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       <StatusBar
         barStyle={!isColorLightish ? 'light-content' : 'dark-content'}
       />
-      <SafeAreaView
-        style={[
-          styles.flexContainer,
-          {
-            backgroundColor: color || '#fff',
-          },
-        ]}
-      >
-        <WebView
-          ref={webViewRef}
-          renderLoading={() => (
-            <ActivityIndicator
-              color={isColorLightish ? 'rgba(0,0,0,.4)' : '#fff'}
-              size="large"
-              style={[
-                styles.webViewIndicator,
-                { backgroundColor: color || '#fff' },
-              ]}
-            />
-          )}
-          style={styles.flexContainer}
-          source={{ uri: chatURL.toString() }}
-          startInLoadingState
-          javaScriptEnabled
-          onMessage={onCaptureWebViewEvent}
-          onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-        />
-      </SafeAreaView>
+      {!isUIReady ? (
+        <View style={[styles.loadingView, { backgroundColor: color }]}>
+          <TouchableOpacity
+            onPress={() => onWidgetHide?.()}
+            style={[
+              styles.closeBtn,
+              {
+                backgroundColor: 'rgba(0, 0, 0, .2)',
+              },
+            ]}
+          >
+            <Text
+              style={{ fontSize: 20, color: isColorLightish ? '#000' : '#fff' }}
+            >
+              X
+            </Text>
+          </TouchableOpacity>
+          <ActivityIndicator
+            size="large"
+            color={isColorLightish ? 'rgba(0,0,0,.4)' : '#fff'}
+          />
+        </View>
+      ) : (
+        <SafeAreaView
+          style={[
+            styles.flexContainer,
+            {
+              backgroundColor: color || '#fff',
+            },
+          ]}
+        >
+          <WebView
+            ref={webViewRef}
+            // renderLoading={() => (
+            //   <ActivityIndicator
+            //     color={isColorLightish ? 'rgba(0,0,0,.4)' : '#fff'}
+            //     size="large"
+            //     style={[
+            //       styles.webViewIndicator,
+            //       { backgroundColor: color || '#fff' },
+            //     ]}
+            //   />
+            // )}
+            style={styles.flexContainer}
+            source={{ uri: chatURL.toString() }}
+            startInLoadingState
+            javaScriptEnabled
+            onMessage={onCaptureWebViewEvent}
+            onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+          />
+        </SafeAreaView>
+      )}
     </Animated.View>
   );
 };
@@ -244,5 +272,25 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     justifyContent: 'center',
+  },
+  loadingView: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+  },
+  closeBtn: {
+    position: 'absolute',
+    top: 76,
+    right: 24,
+    width: 48,
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
   },
 });
