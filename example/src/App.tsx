@@ -5,7 +5,13 @@ import {
   // ChatWidgetProps,
 } from '@infoset/react-native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 const App: React.FC<{}> = () => {
   const [visible, setVisible] = useState(false);
@@ -23,7 +29,7 @@ const App: React.FC<{}> = () => {
   };
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
       <ChatWidget
         isVisible={visible}
         apiKey="123-456-789" // your infoset API key
@@ -41,19 +47,13 @@ const App: React.FC<{}> = () => {
       />
       <View style={styles.container}>
         <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: 'gray',
-            borderRadius: 6,
-            paddingHorizontal: 12,
-            paddingVertical: 6,
-          }}
+          style={styles.showWidgetBtn}
           onPress={() => setVisible(true)}
         >
-          <Text style={{ fontSize: 24 }}>Show Chat</Text>
+          <Text style={{ fontSize: 24 }}>Show Chat Widget</Text>
         </TouchableOpacity>
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -62,7 +62,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'lightblue',
+  },
+  showWidgetBtn: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#fff',
   },
 });
 

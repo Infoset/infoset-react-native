@@ -38,53 +38,62 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   const screenHeight = Dimensions.get('screen').height;
   const webViewRef = useRef<WebView>(null);
   const [initiated, setInitiated] = useState<boolean>(false);
-  const [isUIReady, setIsUIReady] = useState<boolean>(false);
   const [isHidden, setIsHidden] = useState<boolean>(true);
-  const [shouldDestroy] = useState<boolean>(false);
+  const [isUIReady, setIsUIReady] = useState<boolean>(false);
   const animatedTopValue = useRef(new Animated.Value(0)).current;
 
-  const onWillShow = useCallback(() => {
-    onWidgetWillShow?.();
-    setIsHidden(false);
-  }, [onWidgetWillShow]);
-  const onWillHide = useCallback(() => {
-    onWidgetWillHide?.();
-  }, [onWidgetWillHide]);
+  const widgetWillShow = useCallback(
+    () =>
+      new Promise((resolve) => {
+        setIsHidden(false);
+        return resolve(onWidgetWillShow?.());
+      }),
+    [onWidgetWillShow]
+  );
+  const widgetWillHide = useCallback(
+    () => new Promise((resolve) => resolve(onWidgetWillHide?.())),
+    [onWidgetWillHide]
+  );
   const onShow = useCallback(() => {
     onWidgetShow?.();
   }, [onWidgetShow]);
+
   const onHide = useCallback(() => {
     onWidgetHide?.();
     setIsHidden(true);
   }, [onWidgetHide]);
 
   const showWidget = useCallback(() => {
-    Animated.parallel([
-      Animated.timing(animatedTopValue, {
-        toValue: 0,
-        duration: 280,
-        useNativeDriver: false,
-      }),
-    ]).start((result) => {
-      if (result.finished) {
-        onShow();
-      }
+    widgetWillShow?.().then(() => {
+      Animated.parallel([
+        Animated.timing(animatedTopValue, {
+          toValue: 0,
+          duration: 280,
+          useNativeDriver: false,
+        }),
+      ]).start((result) => {
+        if (result.finished) {
+          onShow();
+        }
+      });
     });
-  }, [animatedTopValue, onShow]);
+  }, [animatedTopValue, widgetWillShow, onShow]);
 
   const hideWidget = useCallback(() => {
-    Animated.parallel([
-      Animated.timing(animatedTopValue, {
-        toValue: screenHeight,
-        duration: 280,
-        useNativeDriver: false,
-      }),
-    ]).start((result) => {
-      if (result.finished) {
-        onHide();
-      }
+    widgetWillHide().then(() => {
+      Animated.parallel([
+        Animated.timing(animatedTopValue, {
+          toValue: screenHeight,
+          duration: 280,
+          useNativeDriver: false,
+        }),
+      ]).start((result) => {
+        if (result.finished) {
+          onHide();
+        }
+      });
     });
-  }, [animatedTopValue, onHide, screenHeight]);
+  }, [animatedTopValue, widgetWillHide, onHide, screenHeight]);
 
   useEffect(() => {
     if (isVisible) {
@@ -96,10 +105,8 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   useEffect(() => {
     if (isVisible) {
-      onWillShow?.();
       showWidget();
     } else {
-      onWillHide();
       hideWidget();
     }
   }, [
@@ -112,8 +119,8 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     showWidget,
     onShow,
     onHide,
-    onWillShow,
-    onWillHide,
+    widgetWillShow,
+    widgetWillHide,
   ]);
 
   if (
@@ -123,12 +130,14 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     return null;
   }
 
-  if (!initiated || shouldDestroy) {
+  if (!initiated) {
     return null;
   }
 
   // build url
   let chatURL = new URL('https://cdn.infoset.app/chat/open_chat.html');
+  // TODO
+  // let chatURL = new URL('http://localhost:4000/chat/open_chat.html');
   chatURL.searchParams.append('platform', Platform.OS);
   chatURL.searchParams.append('apiKey', apiKey);
 
@@ -179,9 +188,14 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       } else if (messageType === 'newMessage') {
         onNewMessage?.();
       } else if (messageType === 'hideChatWindow') {
-        hideWidget?.();
+        widgetWillHide().then(() => {
+          hideWidget();
+        });
       } else if (messageType === 'error') {
-        webViewRef.current?.forceUpdate();
+        widgetWillHide().then(() => {
+          hideWidget();
+          setInitiated(false);
+        });
       }
     }
   }
