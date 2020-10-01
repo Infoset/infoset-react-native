@@ -11,12 +11,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import { URL } from 'react-native-url-polyfill';
 import WebView, {
   WebViewMessageEvent,
-  WebViewNavigation
+  WebViewNavigation,
 } from 'react-native-webview';
 import type { ChatMessageTypes, ChatWidgetProps } from './types';
 
