@@ -11,12 +11,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { URL } from 'react-native-url-polyfill';
 import WebView, {
   WebViewMessageEvent,
-  WebViewNavigation,
+  WebViewNavigation
 } from 'react-native-webview';
 import type { ChatMessageTypes, ChatWidgetProps } from './types';
 
@@ -136,8 +136,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   // build url
   let chatURL = new URL('https://cdn.infoset.app/chat/open_chat.html');
-  // TODO
-  // let chatURL = new URL('http://localhost:4000/chat/open_chat.html');
   chatURL.searchParams.append('platform', Platform.OS);
   chatURL.searchParams.append('apiKey', apiKey);
 
@@ -175,7 +173,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
     return true;
   };
-
   function onCaptureWebViewEvent(event: WebViewMessageEvent) {
     const {
       messageType,
@@ -192,6 +189,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
           hideWidget();
         });
       } else if (messageType === 'error') {
+        console.warn('Error. Chat Widget closing..');
         widgetWillHide().then(() => {
           hideWidget();
           setInitiated(false);
@@ -226,6 +224,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
         style={[
           styles.flexContainer,
           {
+            paddingVertical: 20,
             backgroundColor: color || '#fff',
           },
         ]}
@@ -272,6 +271,9 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
           source={{ uri: chatURL.toString() }}
           startInLoadingState
           javaScriptEnabled
+          allowsLinkPreview
+          allowsFullscreenVideo
+          cacheEnabled={false}
           onMessage={onCaptureWebViewEvent}
           onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         />

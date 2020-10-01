@@ -103,7 +103,7 @@ See example app from `/examples` for complete example.
 | apiKey                         | string           | **REQUIRED**                   | Infoset API key                                                |
 | iosKey                         | string           | undefined                      | IOS key given from Infoset                                     |
 | androidKey                     | string           | undefined                      | Android key given from Infoset                                 |
-| color                          | string           | '#fff'                         | Widget color                                                   |
+| color                          | string           | '#fff'                         | Widget color for backgroud of `SafeAreaView`                   |
 | onWidgetWillShow               | func             | () => void                     | Called before the widget show animation begins                 |
 | onWidgetShow                   | func             | () => void                     | Called when the widget is completely visible                   |
 | onWidgetWillHide               | func             | () => void                     | Called before the widget hide animation begins                 |

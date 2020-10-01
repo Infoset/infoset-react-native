@@ -5,13 +5,7 @@ import {
   // ChatWidgetProps,
 } from '@infoset/react-native';
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const App: React.FC<{}> = () => {
   const [visible, setVisible] = useState(false);
@@ -29,13 +23,13 @@ const App: React.FC<{}> = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <>
       <ChatWidget
         isVisible={visible}
-        apiKey="123-456-789" // your infoset API key
-        iosKey="123-456-789" // ios key given from infoset
-        androidKey="123-456-789" // ios key given from infoset
-        color="#4c65ff"
+        apiKey="your_chat_widget_api_key"
+        iosKey="your_chat_widget_ios_key"
+        androidKey="your_chat_widget_android_key"
+        color="#E69618"
         onWidgetHide={() => setVisible(false)}
         onWidgetWillHide={() => console.log('will hide')}
         onWidgetWillShow={() => console.log('will show')}
@@ -53,7 +47,7 @@ const App: React.FC<{}> = () => {
           <Text style={{ fontSize: 24 }}>Show Chat Widget</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 
