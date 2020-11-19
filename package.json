@@ -63,7 +63,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-webview": "*"
   },
   "jest": {
     "preset": "react-native",
@@ -139,7 +140,6 @@
     ]
   },
   "dependencies": {
-    "react-native-url-polyfill": "^1.2.0",
-    "react-native-webview": "8.0.0"
+    "react-native-url-polyfill": "^1.2.0"
   }
 }

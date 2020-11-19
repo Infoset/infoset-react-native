@@ -3524,10 +3524,10 @@ react-is@^16.12.0, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-native-webview@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-8.0.0.tgz#95581856396c626db54284127428b50591e750c8"
-  integrity sha512-Shom5lT0hfD0oxzj7Wm0hdxXcsYcK38R3rwWT0UlL9dBjtucAPiAAFpOQX2wdxOSP5ApnCIdIiNnPTtPRepVMw==
+react-native-webview@10.7.0:
+  version "10.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-10.7.0.tgz#b96e152ffdae4eeffaa74f43671a35733885b52d"
+  integrity sha512-4TSYwJqMBUTKB9+xqGbPwx+eLXbp6RRD7lQ2BumT8eSTfuuqr2rXNqcrlKU1VRla7QGGYowmYmxl2aXIx5k9wA==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"

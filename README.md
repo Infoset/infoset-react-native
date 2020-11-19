@@ -9,9 +9,10 @@ Infoset react-native SDK allows you to integrate Infoset Chat with your react-na
 
 ## Setup
 
-This library is available on npm, install it with: `npm i @infoset/react-native react-native-webview@8.0.0` or `yarn add @infoset/react-native react-native-webview@8.0.0`.
+This library is available on npm, install it with: `npm i @infoset/react-native` or `yarn add @infoset/react-native`.
 
 ### Usage
+
 1.  Import @infoset/react-native:
 
 ```javascript
@@ -66,17 +67,18 @@ You can provide your user's details such as name and email if they are known, so
 ```
 
 Here's the visitor type:
+
 ```javascript
 export type VisitorType = {
-  id?: number;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
-  photoUrl?: string;
-  userHash?: string;
-  createdAt?: string;
-  company?: string;
+  id?: number,
+  firstName?: string,
+  lastName?: string,
+  email?: string,
+  phone?: string,
+  photoUrl?: string,
+  userHash?: string,
+  createdAt?: string,
+  company?: string,
 };
 ```
 
@@ -96,19 +98,20 @@ By default, all links in chat messages are opened in default browser. To change 
 See example app from `/examples` for complete example.
 
 ### Available props
+
 -- Widget
-| Name                           | Type             | Default                        |Description                                                     |
+| Name | Type | Default |Description |
 | ------------------------------ | ---------------- | ------------------------------ | -------------------------------------------------------------- |
-| isVisible                      | bool             | **REQUIRED** / false           | Show / hide the widget                                         |
-| apiKey                         | string           | **REQUIRED**                   | Infoset API key                                                |
-| iosKey                         | string           | undefined                      | IOS key given from Infoset                                     |
-| androidKey                     | string           | undefined                      | Android key given from Infoset                                 |
-| color                          | string           | '#fff'                         | Widget color for backgroud of `SafeAreaView`                   |
-| onWidgetWillShow               | func             | () => void                     | Called before the widget show animation begins                 |
-| onWidgetShow                   | func             | () => void                     | Called when the widget is completely visible                   |
-| onWidgetWillHide               | func             | () => void                     | Called before the widget hide animation begins                 |
-| onWidgetHide                   | func             | () => void                     | Called when the widget is completely hiden                     |
-| onNewMessage                   | func             | () => void                     | Called when the new message received                           |
-| handleUrl                      | func             | (url: string) => void          | Called when a link is clicked                                  |
-| visitor                        | object           | undefined                      | Visitor data                                                   |
-| tags                           | array            | undefined                      | Tags                                                           |
+| isVisible | bool | **REQUIRED** / false | Show / hide the widget |
+| apiKey | string | **REQUIRED** | Infoset API key |
+| iosKey | string | undefined | IOS key given from Infoset |
+| androidKey | string | undefined | Android key given from Infoset |
+| color | string | '#fff' | Widget color for backgroud of `SafeAreaView` |
+| onWidgetWillShow | func | () => void | Called before the widget show animation begins |
+| onWidgetShow | func | () => void | Called when the widget is completely visible |
+| onWidgetWillHide | func | () => void | Called before the widget hide animation begins |
+| onWidgetHide | func | () => void | Called when the widget is completely hiden |
+| onNewMessage | func | () => void | Called when the new message received |
+| handleUrl | func | (url: string) => void | Called when a link is clicked |
+| visitor | object | undefined | Visitor data |
+| tags | array | undefined | Tags |
