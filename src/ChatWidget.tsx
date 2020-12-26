@@ -136,27 +136,37 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   // build url
   let chatURL = new URL('https://cdn.infoset.app/chat/open_chat.html');
-  chatURL.searchParams.append('platform', Platform.OS);
-  chatURL.searchParams.append('apiKey', apiKey);
+  const appendQueryParam = (key: string, value: any) => {
+    if (typeof value === 'object') {
+      Object.entries(value).forEach(([nestedKey, nestedVal]) => {
+        if (typeof nestedVal === 'object') {
+          appendQueryParam(`${key}[${nestedKey}]`, nestedVal);
+          return;
+        }
+        chatURL.searchParams.append(`${key}[${nestedKey}]`, nestedVal);
+      });
+      return;
+    }
+    chatURL.searchParams.append(key, value);
+  }
+  appendQueryParam('platform', Platform.OS);
+  appendQueryParam('apiKey', apiKey);
 
   // append os key
   if (iosKey) {
-    chatURL.searchParams.append('iosKey', iosKey);
+    appendQueryParam('iosKey', iosKey);
   } else if (androidKey) {
-    chatURL.searchParams.append('androidKey', androidKey);
+    appendQueryParam('androidKey', androidKey);
   }
 
   // append visitor
-  if (visitor?.id) {
-    Object.entries(visitor).forEach(
-      (entry) =>
-        entry[1] && chatURL.searchParams.append(entry[0], String(entry[1]))
-    );
+  if (visitor && typeof visitor === 'object') {
+    appendQueryParam('visitor', visitor);
   }
 
   // append tags
-  if (tags && tags.length) {
-    chatURL.searchParams.append('tags', tags.join(','));
+  if (Array.isArray(tags) && tags.length) {
+    appendQueryParam('tags', tags.join(','));
   }
 
   const onShouldStartLoadWithRequest = (event: WebViewNavigation) => {
