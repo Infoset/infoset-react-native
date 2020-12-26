@@ -14,13 +14,11 @@ This library is available on npm, install it with: `npm i @infoset/react-native`
 ### Usage
 
 1.  Import @infoset/react-native:
-
 ```javascript
 import { ChatWidget } from '@infoset/react-native';
 ```
 
 2.  Then simply mount the component and set `isVisible` to `true` to display the chat window:
-
 ```javascript
 function ExampleComponent() {
   return (
@@ -35,10 +33,10 @@ function ExampleComponent() {
 }
 ```
 
-You should control the `isVisible` prop and set it to `true` or `false` when needed.<br/>
+Chat widget will be displayed when `isVisible` is `true`. 
 You can get your `apiKey`, `iosKey` and `androidKey` from the Infoset dashboard. `apiKey` is required, and at least one of `iosKey` or `androidKey` is required.
 
-### Assign chat to tags
+### Assign chats to tags
 
 You can route your chats to specific tags by providing `tags`.
 
@@ -64,22 +62,6 @@ You can provide your user's details such as name and email if they are known, so
     ...
   }}
 />
-```
-
-Here's the visitor type:
-
-```javascript
-export type VisitorType = {
-  id?: number,
-  firstName?: string,
-  lastName?: string,
-  email?: string,
-  phone?: string,
-  photoUrl?: string,
-  userHash?: string,
-  createdAt?: string,
-  company?: string,
-};
 ```
 
 See `examples/src/app.tsx` for all of the visitor fields.
