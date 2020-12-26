@@ -8,6 +8,7 @@ export type VisitorType = {
   userHash?: string;
   createdAt?: string;
   company?: string;
+  customFields?: object;
 };
 
 export type ChatWidgetProps = {
