@@ -143,12 +143,12 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
           appendQueryParam(`${key}[${nestedKey}]`, nestedVal);
           return;
         }
-        chatURL.searchParams.append(`${key}[${nestedKey}]`, nestedVal);
+        chatURL.searchParams.append(`${key}[${nestedKey}]`, nestedVal as any);
       });
       return;
     }
     chatURL.searchParams.append(key, value);
-  }
+  };
   appendQueryParam('platform', Platform.OS);
   appendQueryParam('apiKey', apiKey);
 
