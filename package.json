@@ -1,6 +1,6 @@
 {
   "name": "@infoset/react-native",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Infoset React Native SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
