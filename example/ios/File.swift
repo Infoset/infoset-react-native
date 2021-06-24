@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  InfosetReactNativeExample
+//  ReactNativeExample
 //
 
 import Foundation

@@ -149,6 +149,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     }
     chatURL.searchParams.append(key, value);
   };
+
   appendQueryParam('platform', Platform.OS);
   appendQueryParam('apiKey', apiKey);
 
@@ -171,17 +172,14 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   const onShouldStartLoadWithRequest = (event: WebViewNavigation) => {
     const { url } = event;
+    if ([chatURL.toString(), 'about:srcdoc'].includes(url)) return true;
 
-    if (url !== chatURL.toString()) {
-      if (handleUrl) {
-        handleUrl(url);
-      } else {
-        Linking.openURL(url);
-      }
-      return false;
+    if (handleUrl) {
+      handleUrl(url);
+    } else {
+      Linking.openURL(url);
     }
-
-    return true;
+    return false;
   };
   function onCaptureWebViewEvent(event: WebViewMessageEvent) {
     const {
@@ -189,6 +187,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     }: {
       messageType: ChatMessageTypes;
     } = JSON.parse(event.nativeEvent.data);
+
     if (messageType) {
       if (messageType === 'uiReady') {
         setIsUIReady(true);
@@ -281,9 +280,13 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
           source={{ uri: chatURL.toString() }}
           startInLoadingState
           javaScriptEnabled
+          allowFileAccess
+          allowsBackForwardNavigationGestures
           allowsLinkPreview
+          allowFileAccessFromFileURLs
           allowsFullscreenVideo
           cacheEnabled={false}
+          originWhitelist={['*']}
           onMessage={onCaptureWebViewEvent}
           onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         />
@@ -302,7 +305,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    zIndex: 9999999999,
+    zIndex: 2147483647,
   },
   webViewIndicator: {
     height: '100%',
@@ -317,7 +320,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 9999,
+    zIndex: 1,
   },
   closeBtn: {
     position: 'absolute',
@@ -328,5 +331,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 6,
+    zIndex: 2,
   },
 });
