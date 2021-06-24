@@ -11,6 +11,11 @@ Infoset react-native SDK allows you to integrate Infoset Chat with your react-na
 
 This library is available on npm, install it with: `npm i @infoset/react-native` or `yarn add @infoset/react-native`.
 
+### Peer Dependecies
+
+1. react-native-webview
+2. react-native-url-polyfill
+
 ### Usage
 
 1.  Import @infoset/react-native:
@@ -33,7 +38,7 @@ function ExampleComponent() {
 }
 ```
 
-Chat widget will be displayed when `isVisible` is `true`. 
+Chat widget will be displayed when `isVisible` is `true`.
 You can get your `apiKey`, `iosKey` and `androidKey` from the Infoset dashboard. `apiKey` is required, and at least one of `iosKey` or `androidKey` is required.
 
 ### Assign chats to tags
