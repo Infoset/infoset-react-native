@@ -156,7 +156,9 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   // append os key
   if (iosKey) {
     appendQueryParam('iosKey', iosKey);
-  } else if (androidKey) {
+  }
+
+  if (androidKey) {
     appendQueryParam('androidKey', androidKey);
   }
 
