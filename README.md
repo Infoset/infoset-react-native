@@ -97,7 +97,7 @@ See example app from `/examples` for complete example.
 | onWidgetWillShow | func | () => void | Called before the widget show animation begins |
 | onWidgetShow | func | () => void | Called when the widget is completely visible |
 | onWidgetWillHide | func | () => void | Called before the widget hide animation begins |
-| onWidgetHide | func | () => void | Called when the widget is completely hiden |
+| onWidgetHide | func | () => void | Called when the widget is completely hidden |
 | onNewMessage | func | () => void | Called when the new message received |
 | handleUrl | func | (url: string) => void | Called when a link is clicked |
 | visitor | object | undefined | Visitor data |
