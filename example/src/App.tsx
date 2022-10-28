@@ -26,15 +26,18 @@ const App: React.FC<{}> = () => {
     <>
       <ChatWidget
         isVisible={visible}
-        apiKey="your_chat_widget_api_key"
-        iosKey="your_chat_widget_ios_key"
-        androidKey="your_chat_widget_android_key"
+        apiKey="w118TxtMgkacPmlEctTdRxxbZV7XcYLKTy6egVmv"
+        iosKey="hu7AgY6JtnPl0iRGiHUIBwGNZrWHnxll"
+        androidKey="YUnmeSR9O0HBoZYAWWMxkAxKVXZCBuWS"
         color="#E69618"
         onWidgetHide={() => setVisible(false)}
         onWidgetWillHide={() => console.log('will hide')}
         onWidgetWillShow={() => console.log('will show')}
         onWidgetShow={() => console.log('on show')}
         onNewMessage={() => console.log('on new message')}
+        onRoomOpened={() => console.log('on room opened')}
+        onRoomReopened={() => console.log('on room reopened')}
+        onRoomClosed={() => console.log('on room closed')}
         handleUrl={(url) => console.log(url)}
         visitor={visitor}
         tags={['Support', 'Recurring Customer']}
@@ -44,7 +47,7 @@ const App: React.FC<{}> = () => {
           style={styles.showWidgetBtn}
           onPress={() => setVisible(true)}
         >
-          <Text style={{ fontSize: 24 }}>Show Chat Widget</Text>
+          <Text style={{ fontSize: 24 }}>Show Chat Widgetx</Text>
         </TouchableOpacity>
       </View>
     </>

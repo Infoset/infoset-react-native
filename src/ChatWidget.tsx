@@ -27,6 +27,9 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   androidKey,
   color = '#fff',
   onNewMessage,
+  onRoomOpened,
+  onRoomClosed,
+  onRoomReopened,
   onWidgetWillShow,
   onWidgetShow,
   onWidgetWillHide,
@@ -136,6 +139,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   // build url
   let chatURL = new URL('https://cdn.infoset.app/chat/open_chat.html');
+  // let chatURL = new URL('https://d653-85-105-41-63.ngrok.io/open_chat.html');
   const appendQueryParam = (key: string, value: any) => {
     if (typeof value === 'object') {
       Object.entries(value).forEach(([nestedKey, nestedVal]) => {
@@ -186,15 +190,23 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   function onCaptureWebViewEvent(event: WebViewMessageEvent) {
     const {
       messageType,
+      data,
     }: {
       messageType: ChatMessageTypes;
+      data: any;
     } = JSON.parse(event.nativeEvent.data);
-
+    console.log({ messageType, data });
     if (messageType) {
       if (messageType === 'uiReady') {
         setIsUIReady(true);
       } else if (messageType === 'newMessage') {
-        onNewMessage?.();
+        onNewMessage?.(data);
+      } else if (messageType === 'roomOpened') {
+        onRoomOpened?.(data);
+      } else if (messageType === 'roomClosed') {
+        onRoomClosed?.(data);
+      } else if (messageType === 'roomReopened') {
+        onRoomReopened?.(data);
       } else if (messageType === 'hideChatWindow') {
         widgetWillHide().then(() => {
           hideWidget();
@@ -218,6 +230,8 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       isColorLightish = false;
     }
   }
+
+  console.log(chatURL);
 
   return (
     <Animated.View
