@@ -139,7 +139,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   // build url
   let chatURL = new URL('https://cdn.infoset.app/chat/open_chat.html');
-  // let chatURL = new URL('https://d653-85-105-41-63.ngrok.io/open_chat.html');
   const appendQueryParam = (key: string, value: any) => {
     if (typeof value === 'object') {
       Object.entries(value).forEach(([nestedKey, nestedVal]) => {
@@ -195,7 +194,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       messageType: ChatMessageTypes;
       data: any;
     } = JSON.parse(event.nativeEvent.data);
-    console.log({ messageType, data });
+
     if (messageType) {
       if (messageType === 'uiReady') {
         setIsUIReady(true);
@@ -230,8 +229,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
       isColorLightish = false;
     }
   }
-
-  console.log(chatURL);
 
   return (
     <Animated.View

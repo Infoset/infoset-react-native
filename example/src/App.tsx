@@ -26,9 +26,9 @@ const App: React.FC<{}> = () => {
     <>
       <ChatWidget
         isVisible={visible}
-        apiKey="w118TxtMgkacPmlEctTdRxxbZV7XcYLKTy6egVmv"
-        iosKey="hu7AgY6JtnPl0iRGiHUIBwGNZrWHnxll"
-        androidKey="YUnmeSR9O0HBoZYAWWMxkAxKVXZCBuWS"
+        apiKey="your_chat_widget_api_key"
+        iosKey="your_chat_widget_ios_key"
+        androidKey="your_chat_widget_android_key"
         color="#E69618"
         onWidgetHide={() => setVisible(false)}
         onWidgetWillHide={() => console.log('will hide')}
@@ -47,7 +47,7 @@ const App: React.FC<{}> = () => {
           style={styles.showWidgetBtn}
           onPress={() => setVisible(true)}
         >
-          <Text style={{ fontSize: 24 }}>Show Chat Widgetx</Text>
+          <Text style={{ fontSize: 24 }}>Show Chat Widget</Text>
         </TouchableOpacity>
       </View>
     </>
