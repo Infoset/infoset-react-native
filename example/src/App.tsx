@@ -35,6 +35,9 @@ const App: React.FC<{}> = () => {
         onWidgetWillShow={() => console.log('will show')}
         onWidgetShow={() => console.log('on show')}
         onNewMessage={() => console.log('on new message')}
+        onRoomOpened={() => console.log('on room opened')}
+        onRoomReopened={() => console.log('on room reopened')}
+        onRoomClosed={() => console.log('on room closed')}
         handleUrl={(url) => console.log(url)}
         visitor={visitor}
         tags={['Support', 'Recurring Customer']}

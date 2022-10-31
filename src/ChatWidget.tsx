@@ -27,6 +27,9 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   androidKey,
   color = '#fff',
   onNewMessage,
+  onRoomOpened,
+  onRoomClosed,
+  onRoomReopened,
   onWidgetWillShow,
   onWidgetShow,
   onWidgetWillHide,
@@ -186,15 +189,23 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   function onCaptureWebViewEvent(event: WebViewMessageEvent) {
     const {
       messageType,
+      data,
     }: {
       messageType: ChatMessageTypes;
+      data: any;
     } = JSON.parse(event.nativeEvent.data);
 
     if (messageType) {
       if (messageType === 'uiReady') {
         setIsUIReady(true);
       } else if (messageType === 'newMessage') {
-        onNewMessage?.();
+        onNewMessage?.(data);
+      } else if (messageType === 'roomOpened') {
+        onRoomOpened?.(data);
+      } else if (messageType === 'roomClosed') {
+        onRoomClosed?.(data);
+      } else if (messageType === 'roomReopened') {
+        onRoomReopened?.(data);
       } else if (messageType === 'hideChatWindow') {
         widgetWillHide().then(() => {
           hideWidget();

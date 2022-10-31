@@ -17,7 +17,19 @@ export type ChatWidgetProps = {
   color?: string;
   iosKey?: string;
   androidKey?: string;
-  onNewMessage?: () => void;
+  onNewMessage?: (payload: {
+    author: {
+      userId: string;
+      userName: string;
+      avatar: string;
+      connectionId: string;
+    };
+    message: string;
+    messageId: string;
+  }) => void;
+  onRoomOpened?: (payload: { roomId: number }) => void;
+  onRoomClosed?: (payload: { roomId: number }) => void;
+  onRoomReopened?: (payload: { roomId: number }) => void;
   onWidgetWillShow?: () => void;
   onWidgetShow?: () => void;
   onWidgetWillHide?: () => void;
@@ -31,4 +43,7 @@ export type ChatMessageTypes =
   | 'uiReady'
   | 'newMessage'
   | 'hideChatWindow'
+  | 'roomOpened'
+  | 'roomClosed'
+  | 'roomReopened'
   | 'error';

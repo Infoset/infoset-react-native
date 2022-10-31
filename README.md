@@ -19,11 +19,13 @@ This library is available on npm, install it with: `npm i @infoset/react-native`
 ### Usage
 
 1.  Import @infoset/react-native:
+
 ```javascript
 import { ChatWidget } from '@infoset/react-native';
 ```
 
 2.  Then simply mount the component and set `isVisible` to `true` to display the chat window:
+
 ```javascript
 function ExampleComponent() {
   return (
@@ -93,7 +95,7 @@ See example app from `/examples` for complete example.
 | apiKey | string | **REQUIRED** | Infoset API key |
 | iosKey | string | undefined | IOS key given from Infoset |
 | androidKey | string | undefined | Android key given from Infoset |
-| color | string | '#fff' | Widget color for backgroud of `SafeAreaView` |
+| color | string | '#fff' | Widget color for background of `SafeAreaView` |
 | onWidgetWillShow | func | () => void | Called before the widget show animation begins |
 | onWidgetShow | func | () => void | Called when the widget is completely visible |
 | onWidgetWillHide | func | () => void | Called before the widget hide animation begins |
