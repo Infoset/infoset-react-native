@@ -100,7 +100,10 @@ See example app from `/examples` for complete example.
 | onWidgetShow | func | () => void | Called when the widget is completely visible |
 | onWidgetWillHide | func | () => void | Called before the widget hide animation begins |
 | onWidgetHide | func | () => void | Called when the widget is completely hiden |
-| onNewMessage | func | () => void | Called when the new message received |
+| onNewMessage | func | (payload: { author: Author, message: string, messageId: string}) => void | Called when the new message received |
+| onRoomOpened | func | (payload: { roomId: number }) => void | Called when the room opened |
+| onRoomClosed | func | (payload: { roomId: number }) => void | Called when the room closed |
+| onRoomReopened | func | (payload: { roomId: number }) => void | Called when the room reopened |
 | handleUrl | func | (url: string) => void | Called when a link is clicked |
 | visitor | object | undefined | Visitor data |
 | tags | array | undefined | Tags |

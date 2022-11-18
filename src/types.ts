@@ -11,6 +11,13 @@ export type VisitorType = {
   customFields?: object;
 };
 
+export type Author = {
+  userId: string;
+  userName: string;
+  avatar: string;
+  connectionId: string;
+};
+
 export type ChatWidgetProps = {
   isVisible: boolean;
   apiKey?: string;
@@ -18,12 +25,7 @@ export type ChatWidgetProps = {
   iosKey?: string;
   androidKey?: string;
   onNewMessage?: (payload: {
-    author: {
-      userId: string;
-      userName: string;
-      avatar: string;
-      connectionId: string;
-    };
+    author: Author;
     message: string;
     messageId: string;
   }) => void;

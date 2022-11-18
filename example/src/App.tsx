@@ -34,10 +34,18 @@ const App: React.FC<{}> = () => {
         onWidgetWillHide={() => console.log('will hide')}
         onWidgetWillShow={() => console.log('will show')}
         onWidgetShow={() => console.log('on show')}
-        onNewMessage={() => console.log('on new message')}
-        onRoomOpened={() => console.log('on room opened')}
-        onRoomReopened={() => console.log('on room reopened')}
-        onRoomClosed={() => console.log('on room closed')}
+        onNewMessage={(data) =>
+          console.log(`on new message: ${JSON.stringify(data)}`)
+        }
+        onRoomOpened={(data) =>
+          console.log(`on room open: ${JSON.stringify(data)}`)
+        }
+        onRoomReopened={(data) =>
+          console.log(`on room reopened: ${JSON.stringify(data)}`)
+        }
+        onRoomClosed={(data) =>
+          console.log(`on room closed: ${JSON.stringify(data)}`)
+        }
         handleUrl={(url) => console.log(url)}
         visitor={visitor}
         tags={['Support', 'Recurring Customer']}
