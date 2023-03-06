@@ -20,6 +20,7 @@ export type Author = {
 
 export type ChatWidgetProps = {
   isVisible: boolean;
+  webviewUrl?: string;
   apiKey?: string;
   color?: string;
   iosKey?: string;

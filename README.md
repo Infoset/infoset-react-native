@@ -31,6 +31,7 @@ function ExampleComponent() {
   return (
     <ChatWidget
       isVisible={true}
+      apiKey="your_chat_url" // optional
       apiKey="your_chat_widget_api_key"
       iosKey="your_chat_widget_ios_key"
       androidKey="your_chat_widget_android_key"

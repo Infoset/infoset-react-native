@@ -1,5 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Share from 'react-native-share';
+import RNFS from 'react-native-fs';
 import {
   ActivityIndicator,
   Animated,
@@ -22,6 +24,7 @@ import type { ChatMessageTypes, ChatWidgetProps } from './types';
 
 export const ChatWidget: React.FC<ChatWidgetProps> = ({
   isVisible = false,
+  webviewUrl = 'https://cdn.infoset.app/chat/open_chat.html',
   apiKey,
   iosKey,
   androidKey,
@@ -138,7 +141,7 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   }
 
   // build url
-  let chatURL = new URL('https://cdn.infoset.app/chat/open_chat.html');
+  let chatURL = new URL(webviewUrl);
   const appendQueryParam = (key: string, value: any) => {
     if (typeof value === 'object') {
       Object.entries(value).forEach(([nestedKey, nestedVal]) => {
@@ -186,7 +189,8 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
     }
     return false;
   };
-  function onCaptureWebViewEvent(event: WebViewMessageEvent) {
+
+  async function onCaptureWebViewEvent(event: WebViewMessageEvent) {
     const {
       messageType,
       data,
@@ -216,6 +220,29 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
           hideWidget();
           setInitiated(false);
         });
+      } else if (messageType === 'onDownloadTranscript') {
+        // save, share, delete
+        let path = `${
+          RNFS.TemporaryDirectoryPath
+        }/Transcript-${new Date().getTime()}.txt`;
+
+        await RNFS.writeFile(path, data, 'utf8')
+          .then(async () => {
+            await Share.open({
+              url: path,
+            })
+              .then(async () => {
+                await RNFS.unlink(path).catch((err) => {
+                  console.error(`Error while deleting transcript: ${err}`);
+                });
+              })
+              .catch((err) => {
+                console.log(`Error while sharing transcript: ${err}`);
+              });
+          })
+          .catch((err) => {
+            console.error(`Error while saving transcript: ${err}`);
+          });
       }
     }
   }
