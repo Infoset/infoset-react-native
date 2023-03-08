@@ -226,7 +226,12 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
           RNFS.TemporaryDirectoryPath
         }/Transcript-${new Date().getTime()}.txt`;
 
-        await RNFS.writeFile(path, data, 'utf8')
+        const { transcript } = data;
+        if (!transcript) {
+          return;
+        }
+
+        await RNFS.writeFile(path, transcript, 'utf8')
           .then(async () => {
             await Share.open({
               url: path,
