@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Share from 'react-native-share';
+import * as Sharing from 'expo-sharing';
 import RNFS from 'react-native-fs';
 import {
   ActivityIndicator,
@@ -233,8 +233,11 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
 
         await RNFS.writeFile(path, transcript, 'utf8')
           .then(async () => {
-            await Share.open({
-              url: path,
+            const isAvailable = await Sharing.isAvailableAsync();
+            if (!isAvailable) return;
+            await Sharing.shareAsync(path, {
+              mimeType: 'text/plain',
+              UTI: 'public.plain-text',
             })
               .then(async () => {
                 await RNFS.unlink(path).catch((err) => {
