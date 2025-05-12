@@ -21,9 +21,11 @@ If you have an idea for an enhancement, feel free to open an issue to discuss it
     cd infoset-react-native
     ```
 3.  **Set Up:** Install dependencies. This project uses Yarn.
+
     ```bash
     yarn install
     ```
+
     Ensure your workspace symlinks are correctly set up (especially if you encountered issues previously).
 
 4.  **Create a Branch:** Create a new branch for your changes.
@@ -33,42 +35,41 @@ If you have an idea for an enhancement, feel free to open an issue to discuss it
     git checkout -b fix/your-bug-fix-name
     ```
 5.  **Make Changes:** Implement your feature or bug fix in the `src/` directory.
-    * **Code Style:** Ensure your code adheres to the project's coding standards. We use ESLint and Prettier. You can format your code and check for linting issues using:
-        ```bash
-        yarn lint
-        # To attempt to fix lint issues automatically:
-        # yarn lint --fix
-        # (Ensure your eslint.config.mjs or equivalent is set up for --fix)
-        # Or run Prettier directly:
-        # npx prettier --write "src/**/*.{ts,tsx}" "ExpoExample/**/*.{ts,tsx}" "PlainExample/**/*.{ts,tsx}"
-        ```
-    * **Tests:** If you add new functionality, please include tests. Run tests using:
-        ```bash
-        yarn test
-        ```
+    - **Code Style:** Ensure your code adheres to the project's coding standards. We use ESLint and Prettier. You can format your code and check for linting issues using:
+      ```bash
+      yarn lint
+      # To attempt to fix lint issues automatically:
+      # yarn lint --fix
+      # (Ensure your eslint.config.mjs or equivalent is set up for --fix)
+      # Or run Prettier directly:
+      # npx prettier --write "src/**/*.{ts,tsx}" "example/**/*.{ts,tsx}"
+      ```
+    - **Tests:** If you add new functionality, please include tests. Run tests using:
+      ```bash
+      yarn test
+      ```
 6.  **Build the Library:** Ensure your changes build correctly:
     ```bash
     yarn build
     ```
-7.  **Test with Example Apps:** Test your changes thoroughly using the `ExpoExample` and/or `PlainExample` applications.
+7.  **Test with Example App:** Test your changes thoroughly using the `example` application.
+
     ```bash
     # For the library's build watcher (run in one terminal, optional for quick tests after manual build)
     # yarn watch:build
 
     # For the example app (run in another terminal, from root)
     yarn example:expo start
-    # or
-    yarn example:plain ios
-    # (or android)
     ```
+
 8.  **Commit Changes:** Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for your commit messages. This project uses `commitlint` (configured via `commitlint.config.js` or in `package.json`) to enforce this.
-    * Example commit messages:
-        * `feat: Add new onFooBar callback`
-        * `fix: Correctly handle null visitor data`
-        * `docs: Update README with new prop information`
-        * `chore: Upgrade ESLint dependency`
-        * `refactor: Improve animation logic`
-        * `test: Add unit tests for visitor utils`
+    - Example commit messages:
+      - `feat: Add new onFooBar callback`
+      - `fix: Correctly handle null visitor data`
+      - `docs: Update README with new prop information`
+      - `chore: Upgrade ESLint dependency`
+      - `refactor: Improve animation logic`
+      - `test: Add unit tests for visitor utils`
 9.  **Push Changes:** Push your changes to your forked repository.
     ```bash
     git push origin feature/your-feature-name
@@ -77,10 +78,10 @@ If you have an idea for an enhancement, feel free to open an issue to discuss it
 
 ## Development Environment
 
-* Ensure you have a working React Native development environment set up (Node.js, Yarn, Watchman, JDK, Android Studio, Xcode as needed).
-* The library code is in the `src/` directory.
-* The build output goes to the `lib/` directory.
-* The `react-native-builder-bob` tool is used for building the library.
+- Ensure you have a working React Native development environment set up (Node.js, Yarn, Watchman, JDK, Android Studio, Xcode as needed).
+- The library code is in the `src/` directory.
+- The build output goes to the `lib/` directory.
+- The `react-native-builder-bob` tool is used for building the library.
 
 ## Code of Conduct
 

@@ -1,4 +1,4 @@
-// ExpoExample/src/App.tsx
+// example/src/App.tsx
 
 import {
   ChatWidget,

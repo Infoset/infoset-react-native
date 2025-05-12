@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ExpoExample",
-    "slug": "ExpoExample",
+    "name": "example",
+    "slug": "example",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "infoset.reactnative.expoexample"
+      "bundleIdentifier": "infoset.reactnative.example"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "infoset.reactnative.expoexample"
+      "package": "infoset.reactnative.example"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -286,8 +286,7 @@ When the chat transcript is available (e.g., user requests a download from withi
 
 This repository includes example applications to demonstrate the library's usage:
 
-- **`ExpoExample/`**: An example app set up with Expo, demonstrating usage in an Expo environment. It should work with Expo Go for this library's core functionality. If you add other native modules to the example, you might need a development client.
-- **`PlainExample/`**: An example app set up as a plain React Native CLI project.
+- **`example/`**: An example app set up with Expo, demonstrating usage in an Expo environment. It should work with Expo Go for this library's core functionality. If you add other native modules to the example, you might need a development client.
 
 Refer to the `App.tsx` file within these directories for complete usage examples.
 

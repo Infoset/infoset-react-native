@@ -32,8 +32,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example:expo": "yarn workspace @infoset/react-native-expo-example",
-    "example:plain": "yarn workspace @infoset/react-native-plain-example",
+    "example": "yarn workspace @infoset/react-native-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -95,15 +94,13 @@
     "react-native-webview": "*"
   },
   "workspaces": [
-    "ExpoExample",
-    "PlainExample"
+    "example"
   ],
   "packageManager": "yarn@3.6.1",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
-      "<rootDir>/ExpoExample/node_modules",
-      "<rootDir>/PlainExample/node_modules",
+      "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
     ]
   },
