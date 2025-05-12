@@ -282,17 +282,137 @@ When the chat transcript is available (e.g., user requests a download from withi
 | `handleUrl`                  | `(url: string) => void`                                                     | No        | Default (Linking.openURL) | Callback to handle URL clicks from within chat messages.                                         |
 | `onTranscriptReceived`       | `(transcript: string) => void`                                              | No        | `undefined`               | Callback executed with the chat transcript string when requested/available from the web widget.  |
 
-## Example Apps
+## Example App
 
-This repository includes example applications to demonstrate the library's usage:
+This repository includes an example application to demonstrate the library's usage:
 
 - **`example/`**: An example app set up with Expo, demonstrating usage in an Expo environment. It should work with Expo Go for this library's core functionality. If you add other native modules to the example, you might need a development client.
 
-Refer to the `App.tsx` file within these directories for complete usage examples.
+Refer to the `App.tsx` file within the `example/src/` directory for a complete usage example.
+
+## Development Setup (For Team Members)
+
+This section outlines how to set up the development environment if you are contributing to this library.
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/Infoset/infoset-react-native.git](https://github.com/Infoset/infoset-react-native.git)
+    cd infoset-react-native
+    ```
+2.  **Install Dependencies:**
+    This project uses Yarn workspaces. Install dependencies from the root directory:
+    ```bash
+    yarn install
+    # If you encounter memory issues, try:
+    # NODE_OPTIONS="--max-old-space-size=4096" yarn install
+    ```
+3.  **Building the Library:**
+    The library source code is in `src/` and needs to be compiled to `lib/`.
+    ```bash
+    yarn build
+    ```
+4.  **Watching for Changes (Recommended for Development):**
+    To automatically rebuild the library when you make changes to the `src/` files:
+    - Open a terminal in the project root and run:
+      ```bash
+      yarn watch:build
+      ```
+    - This will watch for changes and recompile the library.
+5.  **Running the Example App (`example`):**
+
+    - In a **separate terminal window**, also in the project root, you can run the Expo example app:
+      ```bash
+      # To start the Expo development server
+      yarn example start
+      # Then press 'i' to open in iOS simulator or 'a' for Android emulator/device.
+      # Alternatively, to directly launch on a platform:
+      # yarn example ios
+      # yarn example android
+      ```
+    - Changes made in the library's `src/` directory, once recompiled by `yarn watch:build`, should reflect in the running example app (Fast Refresh).
+
+6.  **Code Style & Linting:**
+    We use ESLint and Prettier for code consistency.
+    ```bash
+    # Check for linting issues
+    yarn lint
+    # Attempt to automatically fix linting issues
+    # yarn lint --fix (Ensure your ESLint config supports this effectively)
+    # Format code with Prettier
+    npx prettier --write "**/*.{js,ts,tsx,json,md}"
+    ```
+7.  **Running Tests:**
+    ```bash
+    yarn test
+    ```
+
+## Versioning and Releasing (For Maintainers)
+
+This project uses [`release-it`](https://github.com/release-it/release-it) with [`@release-it/conventional-changelog`](https://github.com/release-it/conventional-changelog) to automate versioning, changelog generation, Git tagging, npm publishing, and GitHub releases. Commits should follow the [Conventional Commits](https://www.ventionalcommits.org/) specification.
+
+### Prerequisites
+
+- Ensure you have publish access to the `@infoset/react-native` package on npm.
+- Ensure all changes are merged into the `master` branch and the branch is clean.
+- Ensure all tests are passing.
+
+### Creating a Beta Release
+
+To create a pre-release (e.g., `1.8.0-beta.0`):
+
+1.  Make sure your local `master` branch is up-to-date with the remote.
+2.  Run the `release-it` command with `--preRelease=beta` and specify the npm dist-tag:
+
+    ```bash
+    npx release-it <version_or_increment> --preRelease=beta --npm.tag=beta
+    ```
+
+    - Replace `<version_or_increment>` with the desired version (e.g., `1.8.0`) or an increment keyword like `minor`, `patch`. `release-it` will append the beta part (e.g., `1.8.0-beta.0`).
+    - Example for a specific version: `npx release-it 1.8.0 --preRelease=beta --npm.tag=beta`
+    - Example for a minor pre-release: `npx release-it minor --preRelease=beta --npm.tag=beta`
+    - You can add `--ci` to automate prompts or run it interactively.
+
+    This command will:
+
+    - Bump the version in `package.json` (e.g., to `1.8.0-beta.0`).
+    - Generate/update the changelog.
+    - Commit these changes.
+    - Create a Git tag (e.g., `v1.8.0-beta.0`).
+    - Push commits and tags to the remote.
+    - Publish the package to npm with the `beta` dist-tag. This prevents it from becoming the `latest` tag.
+    - Create a GitHub Release.
+
+Users can then install this beta version using `npm install @infoset/react-native@beta` or `npm install @infoset/react-native@1.8.0-beta.0`.
+
+### Creating a Stable Release
+
+To create a stable release (e.g., `1.8.0`):
+
+1.  Ensure all beta testing is complete and the `master` branch is ready for release.
+2.  Run the `release-it` command:
+
+    ```bash
+    npx release-it <version_or_increment>
+    ```
+
+    - Example for a specific version: `npx release-it 1.8.0`
+    - Example for a patch release: `npx release-it patch`
+
+    This command will:
+
+    - Bump the version in `package.json`.
+    - Generate/update the changelog.
+    - Commit these changes.
+    - Create a Git tag (e.g., `v1.8.0`).
+    - Push commits and tags to the remote.
+    - Publish the package to npm (it will become the `latest` version).
+    - Create a GitHub Release.
+
+Always review the changes proposed by `release-it` before confirming.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue on the GitHub repository.
+Contributions are welcome! Please feel free to submit a pull request or open an issue on the GitHub repository. Refer to `CONTRIBUTING.md` for more detailed guidelines.
 
 ## License
 
