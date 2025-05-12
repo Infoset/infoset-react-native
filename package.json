@@ -1,6 +1,6 @@
 {
   "name": "@infoset/react-native",
-  "version": "1.7.0",
+  "version": "1.8.0-beta.0",
   "description": "Infoset React Native SDK",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
