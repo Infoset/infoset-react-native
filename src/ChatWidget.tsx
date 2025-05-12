@@ -436,10 +436,6 @@ export const ChatWidget: React.FC<ChatWidgetProps> = ({
   // Determine if the loading placeholder should be shown
   const showPlaceholder = isAnimating || !isWebViewReady;
 
-  console.log('[ChatWidget] isAnimating', isAnimating);
-  console.log('[ChatWidget] isWebViewReady', isWebViewReady);
-  console.log('[ChatWidget] showPlaceholder', showPlaceholder);
-  console.log('[ChatWidget] showLoadingIndicator', showLoadingIndicator);
   return (
     <Animated.View
       style={[
